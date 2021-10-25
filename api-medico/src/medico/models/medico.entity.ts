@@ -1,23 +1,23 @@
 import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
-import { Farmacia } from "./farmacia.entity";
+import { Hospital } from "./hospital.entity";
 
 @Entity()
-export class Farmaceutico extends BaseEntity {
+export class Medico extends BaseEntity {
 
   @PrimaryColumn()
-  crf: string;
+  crm: string;
 
   @Column({ nullable: false, type: 'varchar', length: 200 })
   nome: string;
 
-  @Column({ nullable: false, type: 'varchar', length: 200 })
+  @Column({ nullable: false, type: 'varchar', length: 8 })
   password: string;
 
   @Column({ nullable: false, type: 'varchar', length: 20 })
   status: string;
 
-  @ManyToOne(type => Farmacia, farmacia => farmacia.farmaceuticos)
+  @ManyToOne(type => Hospital, hospital => hospital.medicos)
   @JoinColumn({ name: 'cnpj' })
-  farmacia: Farmacia;
+  hospital: Hospital;
 
 }

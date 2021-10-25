@@ -17,9 +17,10 @@ export class FarmaceuticoService {
         const farmaceutico = new Farmaceutico();
         farmaceutico.crf = farmaceuticoDTO.crf;
         farmaceutico.nome = farmaceuticoDTO.nome;
-        farmaceutico.status = farmaceuticoDTO.status;
-        const farmacia = await firstValueFrom(this.httpService.get(`http://localhost:3000/api/v1/farmacia/${farmaceuticoDTO.cnpj}`));
-        farmaceutico.farmacia = farmacia.data;
+        farmaceutico.status = "Ativo";
+        farmaceutico.password = farmaceuticoDTO.password;
+        // const farmacia = await firstValueFrom(this.httpService.get(`http://localhost:3000/api/v1/farmacia/${farmaceuticoDTO.cnpj}`));
+        // farmaceutico.farmacia = farmacia.data;
         return this.farmaceuticoRepo.save(farmaceutico);
     }
 

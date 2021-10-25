@@ -13,7 +13,7 @@ export class FarmaciaService {
         const farmacia = new Farmacia();
         farmacia.cnpj = farmaciaDTO.cnpj;
         farmacia.nomeFantasia = farmaciaDTO.nomeFantasia;
-        farmacia.status = farmaciaDTO.status;
+        farmacia.status = "Ativo";
         return this.farmaciaRepo.save(farmacia);
     }
 

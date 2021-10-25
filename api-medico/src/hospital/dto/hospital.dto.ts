@@ -1,5 +1,5 @@
-export interface FarmaciaDTO {
+export interface HospitalDTO {
   readonly cnpj: string;
   readonly nomeFantasia: string;
-  readonly password: string;
+  readonly status: string;
 }
