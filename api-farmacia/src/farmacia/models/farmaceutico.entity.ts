@@ -1,5 +1,4 @@
-import { BaseEntity, Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
-import { Farmacia } from "./farmacia.entity";
+import { BaseEntity, Column, Entity, PrimaryColumn } from "typeorm";
 
 @Entity()
 export class Farmaceutico extends BaseEntity {
@@ -15,9 +14,5 @@ export class Farmaceutico extends BaseEntity {
 
   @Column({ nullable: false, type: 'varchar', length: 20 })
   status: string;
-
-  @ManyToOne(type => Farmacia, farmacia => farmacia.farmaceuticos)
-  @JoinColumn({ name: 'cnpj' })
-  farmacia: Farmacia;
 
 }

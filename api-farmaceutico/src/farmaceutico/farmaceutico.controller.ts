@@ -1,12 +1,20 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards, Request } from '@nestjs/common';
+import { AuthService } from 'src/auth/auth.service';
 import { FarmaceuticoUpdateDTO } from './dto/farmaceutico-update.dto';
 import { FarmaceuticoDTO } from './dto/farmaceutico.dto';
 import { FarmaceuticoService } from './service/farmaceutico.service';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('api/v1/farmaceutico')
 export class FarmaceuticoController {
     
-    constructor(private farmaceuticoService: FarmaceuticoService){}
+    constructor(private farmaceuticoService: FarmaceuticoService, private authService: AuthService){}
+
+    @UseGuards(AuthGuard('local'))
+    @Post('/login')
+    async login(@Request() req) {
+      return this.authService.login(req.user);
+    }
 
     @Post()
     async criarFarmaceutico(@Body() farmaceuticoDTO: FarmaceuticoDTO) {
@@ -37,5 +45,5 @@ export class FarmaceuticoController {
       const farmaceutico = await this.farmaceuticoService.atualizarFarmaceutico(crf, farmaceuticoDTO);
       return JSON.parse(JSON.stringify(farmaceutico));
     }
-
 }
+

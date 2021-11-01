@@ -1,0 +1,202 @@
+{
+	"info": {
+		"_postman_id": "ef2cbdbe-b5cc-46ef-af5a-2fcb61b0a4df",
+		"name": "API - Farmacia",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Farmacia GET",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzU3MDUxMjksImV4cCI6MTYzNTcwNTE4OX0.cy_AzJxH7E393700ukm8sJB3_Afh-BIXVEIPptYIfY8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/123",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"123"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Farmacia Lista GET",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzU3MDU5OTMsImV4cCI6MTYzNTcwNjA1M30.OfMBV69wHn5Zs9futoGBFw6hc4amNBjoW1PEK-02Fp0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Farmacia POST",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzU3MDU5OTMsImV4cCI6MTYzNTcwNjA1M30.OfMBV69wHn5Zs9futoGBFw6hc4amNBjoW1PEK-02Fp0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cnpj\": \"123\",\r\n    \"nomeFantasia\": \"teste 23\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Farmacia Admin POST",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"cnpj\": \"123\",\r\n  \"nome\": \"Farmacia 2\",\r\n  \"password\": \"senha\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/admin",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"admin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Farmacia Admin GET",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzU3MDQ5NTksImV4cCI6MTYzNTcwNTAxOX0.eZaM49fEMAvs6Z7dgMKTL3QYlvFYHBZEHWYDvxS_wBs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/admin/123",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"admin",
+						"123"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Farmacia Login POST",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"123\",\r\n  \"password\": \"senha\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/admin/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"admin",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Farmacia Refresh Token POST",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"oldToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEyMyIsImlhdCI6MTYzNTcwOTg4NCwiZXhwIjoxNjM1NzA5OTQ0fQ.HftJaW-yatFSkMsHcahdFy8sshisqrcOF3yYIq6SmAE\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/admin/token/refresh",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"admin",
+						"token",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

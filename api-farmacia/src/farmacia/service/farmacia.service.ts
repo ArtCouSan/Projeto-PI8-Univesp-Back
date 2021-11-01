@@ -18,7 +18,7 @@ export class FarmaciaService {
     }
 
     public async pegarFarmacia(cnpj: string) {
-        return this.farmaciaRepo.findOne({
+        return await this.farmaciaRepo.findOne({
             where: {
                 cnpj: cnpj
             }
@@ -38,15 +38,11 @@ export class FarmaciaService {
 
     public async deletarFarmacia(cnpj: string) {
         const farmacia = await this.farmaciaRepo.findOne({
-            relations: ['farmaceuticos'],
             where: {
                 cnpj: cnpj
             }
         });
         farmacia.status = "Desativado";
-        farmacia.farmaceuticos.forEach(farmaceutico => {
-            farmaceutico.status = "Desativado";
-        });
         await this.farmaciaRepo.save(farmacia);
     }
 

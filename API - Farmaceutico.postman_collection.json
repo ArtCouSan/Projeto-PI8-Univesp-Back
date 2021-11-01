@@ -1,0 +1,146 @@
+{
+	"info": {
+		"_postman_id": "9c13d88b-3370-4d42-a1a2-6b4103c67ef5",
+		"name": "API - Farmaceutico",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Farmaceutico GET",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzU3MDUxMjksImV4cCI6MTYzNTcwNTE4OX0.cy_AzJxH7E393700ukm8sJB3_Afh-BIXVEIPptYIfY8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/123",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"123"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Farmaceutico Lista GET",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzU3MDU5OTMsImV4cCI6MTYzNTcwNjA1M30.OfMBV69wHn5Zs9futoGBFw6hc4amNBjoW1PEK-02Fp0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Farmaceutico POST",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzU3MDU5OTMsImV4cCI6MTYzNTcwNjA1M30.OfMBV69wHn5Zs9futoGBFw6hc4amNBjoW1PEK-02Fp0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"crf\": \"123\",\r\n    \"nome\": \"teste 23\",\r\n    \"password\": \"senha\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Farmaceutico Login POST",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"123\",\r\n  \"password\": \"senha\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Farmaceutico Refresh Token POST",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"oldToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEyMyIsImlhdCI6MTYzNTcwOTg4NCwiZXhwIjoxNjM1NzA5OTQ0fQ.HftJaW-yatFSkMsHcahdFy8sshisqrcOF3yYIq6SmAE\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/token/refresh",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"token",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

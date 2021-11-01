@@ -1,7 +1,7 @@
 
 import { EntityRepository, Repository } from 'typeorm';
-import { Admin } from '../models/admin.entity';
+import { AdminFarmacia } from '../models/admin.entity';
 
-@EntityRepository(Admin)
-export class AdminRepository extends Repository<Admin> {
+@EntityRepository(AdminFarmacia)
+export class AdminRepository extends Repository<AdminFarmacia> {
 }

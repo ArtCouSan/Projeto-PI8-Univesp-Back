@@ -1,10 +1,10 @@
 import { BaseEntity, Column, Entity, PrimaryColumn } from "typeorm";
 
 @Entity()
-export class Admin extends BaseEntity {
+export class AdminFarmacia extends BaseEntity {
 
     @PrimaryColumn()
-    cpf: string;
+    cnpj: string;
 
     @Column({ nullable: false, type: 'varchar', length: 8 })
     password: string;

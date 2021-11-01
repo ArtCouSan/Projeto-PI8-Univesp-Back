@@ -1,5 +1,4 @@
-import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
-import { Farmaceutico } from "./farmaceutico.entity";
+import { BaseEntity, Column, Entity, PrimaryColumn } from "typeorm";
 
 @Entity()
 export class Farmacia extends BaseEntity {
@@ -13,6 +12,4 @@ export class Farmacia extends BaseEntity {
   @Column({ nullable: false, type: 'varchar', length: 20 })
   status: string;
 
-  @OneToMany(type => Farmaceutico, farmacia => farmacia.farmacia, { onUpdate: "CASCADE", cascade: true })
-  farmaceuticos: Farmaceutico[];
 }

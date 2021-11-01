@@ -1,14 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig } from 'typeorm.config';
-import { MedicoModule } from './medico/medico.module';
-import { HospitalModule } from './hospital/hospital.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(typeOrmConfig),
-    MedicoModule,
-    HospitalModule
+    AuthModule
   ],
   controllers: [],
   providers: [],

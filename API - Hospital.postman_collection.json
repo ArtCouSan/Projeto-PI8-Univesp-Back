@@ -1,0 +1,202 @@
+{
+	"info": {
+		"_postman_id": "183829b6-2e00-4a21-a639-1618e511b5e1",
+		"name": "API - Hospital",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Hospital GET",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEyMyIsImlhdCI6MTYzNTcyMTQxNywiZXhwIjoxNjM1NzIxNDc3fQ.M8ofAa9y39xjYVZwD6ju-QmWMFp5XK8su3XiLQyN5rU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/123",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"123"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Hospital POST",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEyMyIsImlhdCI6MTYzNTcyMTc1OSwiZXhwIjoxNjM1NzIxODE5fQ.Jv_54uH0c4HGhhFBtjUTL0z0T_hIGUaYPTp2vHv0d5Y",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cnpj\": \"124\",\r\n    \"nomeFantasia\": \"teste 23\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Hospital Admin POST",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"cnpj\": \"123\",\r\n  \"nome\": \"Hospital 1\",\r\n  \"password\": \"senha\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/admin",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"admin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Hospital Admin GET",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MzU3MDQ5NTksImV4cCI6MTYzNTcwNTAxOX0.eZaM49fEMAvs6Z7dgMKTL3QYlvFYHBZEHWYDvxS_wBs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/admin/123",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"admin",
+						"123"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Hospital Login POST",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"123\",\r\n  \"password\": \"senha\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/admin/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"admin",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Hospital Refresh Token POST",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"oldToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEyMyIsImlhdCI6MTYzNTcwOTg4NCwiZXhwIjoxNjM1NzA5OTQ0fQ.HftJaW-yatFSkMsHcahdFy8sshisqrcOF3yYIq6SmAE\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/admin/token/refresh",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"admin",
+						"token",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Hospital Lista GET",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEyMyIsImlhdCI6MTYzNTcyMTg2MSwiZXhwIjoxNjM1NzIxOTIxfQ._FCachBD6QIWH-FvLmguZcNjTFyte6aKQlciXDyo8dc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}",
+					"host": [
+						"{{url}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -18,7 +18,7 @@ export class PacienteService {
     }
 
     public async pegarPaciente(cpf: string) {
-        return this.pacienteRepo.findOne({
+        return await this.pacienteRepo.findOne({
             where: {
                 cpf: cpf
             }

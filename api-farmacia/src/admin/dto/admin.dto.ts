@@ -1,5 +1,5 @@
 export interface AdminDTO {
-    readonly cpf: string;
+    readonly cnpj: string;
     readonly nome: string;
     readonly password: string;
 }

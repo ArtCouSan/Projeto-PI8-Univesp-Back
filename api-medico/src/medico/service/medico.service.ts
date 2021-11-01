@@ -1,4 +1,3 @@
-import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { MedicoUpdateDTO } from '../dto/medico-update.dto';
 import { MedicoDTO } from '../dto/medico.dto';
@@ -15,14 +14,14 @@ export class MedicoService {
         const medico = new Medico();
         medico.crm = medicoDTO.crm;
         medico.nome = medicoDTO.nome;
-        medico.status = medicoDTO.status;
+        medico.status = "Ativo";
         return this.medicoRepo.save(medico);
     }
 
-    public pegarMedico = (crf: string) => {
-        return this.medicoRepo.find({
+    public async pegarMedico(crm: string) {
+        return await this.medicoRepo.findOne({
             where: {
-                crf: crf
+                crm: crm
             }
         });
     }
@@ -34,7 +33,6 @@ export class MedicoService {
             }
         });
         medico.nome = madicoDTO.nome;
-        medico.status = madicoDTO.status;
         return this.medicoRepo.save(medico);
     }
 

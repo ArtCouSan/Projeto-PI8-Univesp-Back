@@ -1,5 +1,6 @@
 export interface MedicoDTO {
-  readonly crm: string;
-  readonly nome: string;
-  readonly status: string;
+  crm: string;
+  nome: string;
+  status: string;
+  password: string;
 }

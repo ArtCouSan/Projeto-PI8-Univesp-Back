@@ -25,7 +25,7 @@ export class FarmaceuticoService {
     }
 
     public pegarFarmaceutico = (crf: string) => {
-        return this.farmaceuticoRepo.find({
+        return this.farmaceuticoRepo.findOne({
             where: {
                 crf: crf
             }
