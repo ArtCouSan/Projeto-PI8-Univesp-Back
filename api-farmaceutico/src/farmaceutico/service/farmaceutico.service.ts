@@ -1,6 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
-import { firstValueFrom } from 'rxjs';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { FarmaceuticoUpdateDTO } from '../dto/farmaceutico-update.dto';
 import { FarmaceuticoDTO } from '../dto/farmaceutico.dto';
 import { Farmaceutico } from '../models/farmaceutico.entity';
@@ -14,6 +13,17 @@ export class FarmaceuticoService {
         private httpService: HttpService) { }
 
     public async criarFarmaceutico(farmaceuticoDTO: FarmaceuticoDTO) {
+
+        const exist = await this.farmaceuticoRepo.findOne({
+            where: {
+                crf: farmaceuticoDTO.crf
+            }
+        });
+        
+        if(exist) {
+            throw new BadRequestException("CNPJ existente");
+        }
+
         const farmaceutico = new Farmaceutico();
         farmaceutico.crf = farmaceuticoDTO.crf;
         farmaceutico.nome = farmaceuticoDTO.nome;
@@ -39,7 +49,6 @@ export class FarmaceuticoService {
             }
         });
         farmaceutico.nome = farmaceuticoDTO.nome;
-        farmaceutico.status = farmaceuticoDTO.status;
         return this.farmaceuticoRepo.save(farmaceutico);
     }
 

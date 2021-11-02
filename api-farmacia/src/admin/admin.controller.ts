@@ -18,6 +18,7 @@ export class AdminController {
 
     @Post()
     async criarAdmin(@Body() adminDTO: AdminDTO) {
+      console.log(adminDTO);
       const admin = await this.adminService.criarAdmin(adminDTO);
       return JSON.parse(JSON.stringify(admin));
     }

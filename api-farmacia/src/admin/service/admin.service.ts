@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { AdminDTO } from '../dto/admin.dto';
 import { AdminFarmacia } from '../models/admin.entity';
 import { AdminRepository } from '../repo/admin.repo';
@@ -8,7 +8,18 @@ export class AdminService {
 
     constructor(private readonly adminRepo: AdminRepository) { }
 
-    public criarAdmin = (adminDTO: AdminDTO) => {
+    public async criarAdmin(adminDTO: AdminDTO) {
+
+        const exist = await this.adminRepo.findOne({
+            where: {
+                cnpj: adminDTO.cnpj
+            }
+        });
+        
+        if(exist) {
+            throw new BadRequestException("CNPJ existente");
+        }
+
         const admin = new AdminFarmacia();
         admin.cnpj = adminDTO.cnpj;
         admin.nome = adminDTO.nome;

@@ -17,30 +17,30 @@ export class FarmaciaController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get()
-  async listarFarmacias() {
-    const farmacias = await this.farmaciaService.listarFarmacias();
+  @Get(":cnpj/listar")
+  async listarFarmacias(@Param('cnpj') cnpj: string) {
+    const farmacias = await this.farmaciaService.listarFarmacias(cnpj);
     return JSON.parse(JSON.stringify(farmacias));
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get(":cnpj")
-  async pegarFarmacia(@Param('cnpj') cnpj: string) {
-    const farmacia = await this.farmaciaService.pegarFarmacia(cnpj);
+  @Get(":id")
+  async pegarFarmacia(@Param('id') id: string) {
+    const farmacia = await this.farmaciaService.pegarFarmacia(id);
     return JSON.parse(JSON.stringify(farmacia));
   }
 
   @UseGuards(JwtAuthGuard)
-  @Delete(":cnpj")
-  async deletarFarmacia(@Param('cnpj') cnpj: string) {
-    await this.farmaciaService.deletarFarmacia(cnpj);
+  @Delete(":id")
+  async deletarFarmacia(@Param('id') id: string) {
+    await this.farmaciaService.deletarFarmacia(id);
     return JSON.parse(JSON.stringify('{"message":"Deletado com sucesso"}'));
   }
 
   @UseGuards(JwtAuthGuard)
-  @Put(":cnpj")
-  async atualizarFarmacia(@Param('cnpj') cnpj: string, @Body() farmaciaDTO: FarmaciaUpdateDTO) {
-    const farmacia = await this.farmaciaService.atualizarFarmacia(cnpj, farmaciaDTO);
+  @Put(":id")
+  async atualizarFarmacia(@Param('id') id: string, @Body() farmaciaDTO: FarmaciaUpdateDTO) {
+    const farmacia = await this.farmaciaService.atualizarFarmacia(id, farmaciaDTO);
     return JSON.parse(JSON.stringify(farmacia));
   }
 

@@ -16,8 +16,10 @@ export class TokenService {
             where: {
                 username: username
             }
+        }).catch(error => {
+            console.log(error)
         });
-        console.log(tokenFinded.id);
+        
         if (tokenFinded) {
             this.tokenRepo.update(tokenFinded.id, {
                 hash: hash

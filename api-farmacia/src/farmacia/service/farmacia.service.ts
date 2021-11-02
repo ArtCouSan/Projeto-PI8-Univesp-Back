@@ -12,42 +12,44 @@ export class FarmaciaService {
     public criarFarmacia = (farmaciaDTO: FarmaciaDTO) => {
         const farmacia = new Farmacia();
         farmacia.cnpj = farmaciaDTO.cnpj;
-        farmacia.nomeFantasia = farmaciaDTO.nomeFantasia;
+        farmacia.nomeFilial = farmaciaDTO.nomeFilial;
         farmacia.status = "Ativo";
         return this.farmaciaRepo.save(farmacia);
     }
 
-    public async pegarFarmacia(cnpj: string) {
+    public async pegarFarmacia(id: string) {
         return await this.farmaciaRepo.findOne({
             where: {
-                cnpj: cnpj
+                id : id
             }
         });
     }
 
-    public async atualizarFarmacia(cnpj: string, farmaciaDTO: FarmaciaUpdateDTO) {
+    public async atualizarFarmacia(id: string, farmaciaDTO: FarmaciaUpdateDTO) {
         const farmacia = await this.farmaciaRepo.findOne({
             where: {
-                cnpj: cnpj
+                id: id
             }
         });
-        farmacia.nomeFantasia = farmaciaDTO.nomeFantasia;
-        farmacia.status = farmaciaDTO.status;
+        farmacia.nomeFilial = farmaciaDTO.nomeFilial;
         return this.farmaciaRepo.save(farmacia);
     }
 
-    public async deletarFarmacia(cnpj: string) {
+    public async deletarFarmacia(id: string) {
         const farmacia = await this.farmaciaRepo.findOne({
             where: {
-                cnpj: cnpj
+                id: id
             }
         });
         farmacia.status = "Desativado";
         await this.farmaciaRepo.save(farmacia);
     }
 
-    public listarFarmacias = () => {
-        return this.farmaciaRepo.find();
+    public async listarFarmacias(cnpj: string) {
+        return await this.farmaciaRepo.find({
+            where: {
+                cnpj: cnpj
+            }
+        });
     }
-
 }

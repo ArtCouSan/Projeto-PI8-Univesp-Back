@@ -7,7 +7,7 @@ export class TokenController {
 
   constructor(private tokenService: TokenService){}
 
-  @Put('refresh')
+  @Put('/refresh')
   async refreshToken(@Body() refreshToken: RefreshTokenDTO) {
     return await this.tokenService.refreshToken(refreshToken.oldToken);
   }

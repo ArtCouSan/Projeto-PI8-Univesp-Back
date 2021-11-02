@@ -1,13 +1,16 @@
-import { BaseEntity, Column, Entity, PrimaryColumn } from "typeorm";
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Farmacia extends BaseEntity {
 
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
+
+  @Column({ nullable: false, type: 'varchar', length: 20 })
   cnpj: string;
 
   @Column({ nullable: false, type: 'varchar', length: 200 })
-  nomeFantasia: string;
+  nomeFilial: string;
 
   @Column({ nullable: false, type: 'varchar', length: 20 })
   status: string;
