@@ -8,8 +8,7 @@ export class AuthService {
 
     constructor(
       private adminService: PacienteService,
-      private jwtService: JwtService,
-      private tokenService: TokenService) {}
+      private jwtService: JwtService) {}
 
     async validateUser(cpf: string, pass: string): Promise<any> {
       const admin = await this.adminService.pegarPaciente(cpf);
@@ -23,7 +22,6 @@ export class AuthService {
     async login(user: any) {
       const payload = { username: user.cpf, sub: user.userId };
       const token = this.jwtService.sign(payload);
-      this.tokenService.salvarToken(token, user.cpf)
       return {
         access_token: token,
       };

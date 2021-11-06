@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PacienteUpdateDTO } from '../dto/paciente-update.dto';
 import { PacienteDTO } from '../dto/paciente.dto';
 import { Paciente } from '../models/paciente.entity';
@@ -9,10 +9,22 @@ export class PacienteService {
 
     constructor(private readonly pacienteRepo: PacienteRepository) { }
 
-    public criarPaciente = (pacienteDTO: PacienteDTO) => {
+    public async criarPaciente(pacienteDTO: PacienteDTO){
         const paciente = new Paciente();
+
+        const exist = await this.pacienteRepo.findOne({
+            where: {
+                cpf: pacienteDTO.cpf
+            }
+        });
+        
+        if(exist) {
+            throw new BadRequestException("CPF existente");
+        }
+
         paciente.cpf = pacienteDTO.cpf;
         paciente.nome = pacienteDTO.nome;
+        paciente.password = pacienteDTO.password;
         paciente.status = "Ativo";
         return this.pacienteRepo.save(paciente);
     }
@@ -32,7 +44,6 @@ export class PacienteService {
             }
         });
         paciente.nome = pacienteDTO.nome;
-        paciente.status = pacienteDTO.status;
         return this.pacienteRepo.save(paciente);
     }
 

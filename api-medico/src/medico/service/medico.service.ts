@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { MedicoUpdateDTO } from '../dto/medico-update.dto';
 import { MedicoDTO } from '../dto/medico.dto';
 import { Medico } from '../models/medico.entity';
@@ -12,8 +12,20 @@ export class MedicoService {
 
     public async criarMedico(medicoDTO: MedicoDTO) {
         const medico = new Medico();
+
+        const exist = await this.medicoRepo.findOne({
+            where: {
+                crm: medicoDTO.crm
+            }
+        });
+        
+        if(exist) {
+            throw new BadRequestException("CRM existente");
+        }
+
         medico.crm = medicoDTO.crm;
         medico.nome = medicoDTO.nome;
+        medico.password = medicoDTO.password;
         medico.status = "Ativo";
         return this.medicoRepo.save(medico);
     }

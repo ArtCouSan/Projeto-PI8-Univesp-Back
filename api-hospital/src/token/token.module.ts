@@ -1,7 +1,7 @@
 import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AdminModule } from 'src/admin/admin.module';
 import { AuthModule } from 'src/auth/auth.module';
+import { HospitalModule } from 'src/hospital/hospital.module';
 import { TokenHospitalRepository } from './repo/token.repo';
 import { TokenService } from './service/token.service';
 import { TokenController } from './token.controller';
@@ -10,7 +10,7 @@ import { TokenController } from './token.controller';
   imports: [
     TypeOrmModule.forFeature([TokenHospitalRepository]),
     forwardRef(() => AuthModule),
-    AdminModule
+    HospitalModule
   ],
   controllers: [TokenController],
   providers: [TokenService],

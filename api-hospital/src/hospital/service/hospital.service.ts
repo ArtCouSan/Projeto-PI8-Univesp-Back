@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { HospitalUpdateDTO } from '../dto/hospital-update.dto';
 import { HospitalDTO } from '../dto/hospital.dto';
 import { Hospital } from '../models/hospital.entity';
@@ -9,10 +9,22 @@ export class HospitalService {
 
     constructor(private readonly hospitalRepo: HospitalRepository) { }
 
-    public criarHospital = (hospitalDTO: HospitalDTO) => {
+    public async criarHospital(hospitalDTO: HospitalDTO) {
         const hospital = new Hospital();
+
+        const exist = await this.hospitalRepo.findOne({
+            where: {
+                cnpj: hospitalDTO.cnpj
+            }
+        });
+        
+        if(exist) {
+            throw new BadRequestException("CNPJ existente");
+        }
+
         hospital.cnpj = hospitalDTO.cnpj;
         hospital.nomeFantasia = hospitalDTO.nomeFantasia;
+        hospital.password = hospitalDTO.password;
         hospital.status = "Ativo";
         return this.hospitalRepo.save(hospital);
     }

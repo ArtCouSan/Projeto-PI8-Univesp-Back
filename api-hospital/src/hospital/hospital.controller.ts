@@ -1,15 +1,22 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Request, Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { HospitalUpdateDTO } from './dto/hospital-update.dto';
 import { HospitalDTO } from './dto/hospital.dto';
 import { HospitalService } from './service/hospital.service';
+import { AuthGuard } from '@nestjs/passport';
+import { AuthService } from 'src/auth/auth.service';
 
 @Controller('api/v1/hospital')
 export class HospitalController {
     
-    constructor(private hospitalService: HospitalService){}
+    constructor(private hospitalService: HospitalService, private readonly authService: AuthService){}
 
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(AuthGuard('local'))
+    @Post('/login')
+    async login(@Request() req) {
+      return this.authService.login(req.user);
+    }
+  
     @Post()
     async criarHospital(@Body() medicoDTO: HospitalDTO) {
       const hospital = await this.hospitalService.criarHospital(medicoDTO);
@@ -23,7 +30,6 @@ export class HospitalController {
       return JSON.parse(JSON.stringify(hospitais));
     }
   
-    @UseGuards(JwtAuthGuard)
     @Get(":cnpj")
     async pegarHospital(@Param('cnpj') cnpj: string) {
       const hospital = await this.hospitalService.pegarHospital(cnpj);

@@ -1,13 +1,13 @@
 import { forwardRef, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
-import { AdminService } from 'src/admin/service/admin.service';
 import { AuthService } from 'src/auth/auth.service';
+import { HospitalService } from 'src/hospital/service/hospital.service';
 import { TokenHospitalRepository } from '../repo/token.repo';
 
 @Injectable()
 export class TokenService {
 
     constructor(private readonly tokenRepo: TokenHospitalRepository,
-         private readonly adminService: AdminService,
+         private readonly adminService: HospitalService,
          @Inject(forwardRef(() => AuthService))
          private readonly authService: AuthService) { }
 
@@ -37,7 +37,7 @@ export class TokenService {
             }
         });
         if (token) {
-            const admin = await this.adminService.pegarAdmin(token.username);
+            const admin = await this.adminService.pegarHospital(token.username);
             return this.authService.login(admin);
         } else {
             throw new UnauthorizedException();

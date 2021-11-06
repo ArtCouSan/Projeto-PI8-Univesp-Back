@@ -1,4 +1,6 @@
 export interface PacienteDTO {
-    readonly cpf: string;
-    readonly nome: string;
+    cpf: string;
+    nome: string;
+    status: string;
+    password: string;
 }

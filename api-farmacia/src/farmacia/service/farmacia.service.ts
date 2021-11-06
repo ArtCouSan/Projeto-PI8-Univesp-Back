@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { FarmaciaUpdateDTO } from '../dto/farmacia-update.dto';
 import { FarmaciaDTO } from '../dto/farmacia.dto';
 import { Farmacia } from '../models/farmacia.entity';
@@ -9,18 +9,30 @@ export class FarmaciaService {
 
     constructor(private readonly farmaciaRepo: FarmaciaRepository) { }
 
-    public criarFarmacia = (farmaciaDTO: FarmaciaDTO) => {
+    public async criarFarmacia(farmaciaDTO: FarmaciaDTO) {
         const farmacia = new Farmacia();
+
+        const exist = await this.farmaciaRepo.findOne({
+            where: {
+                cnpj: farmaciaDTO.cnpj
+            }
+        });
+        
+        if(exist) {
+            throw new BadRequestException("CNPJ existente");
+        }
+
         farmacia.cnpj = farmaciaDTO.cnpj;
         farmacia.nomeFilial = farmaciaDTO.nomeFilial;
+        farmacia.password = farmaciaDTO.password;
         farmacia.status = "Ativo";
         return this.farmaciaRepo.save(farmacia);
     }
 
-    public async pegarFarmacia(id: string) {
+    public async pegarFarmacia(cnpj: string) {
         return await this.farmaciaRepo.findOne({
             where: {
-                id : id
+                cnpj : cnpj
             }
         });
     }

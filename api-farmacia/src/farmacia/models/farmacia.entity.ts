@@ -9,6 +9,9 @@ export class Farmacia extends BaseEntity {
   @Column({ nullable: false, type: 'varchar', length: 20 })
   cnpj: string;
 
+  @Column({ nullable: false, type: 'varchar', length: 20 })
+  password: string;
+
   @Column({ nullable: false, type: 'varchar', length: 200 })
   nomeFilial: string;
 

@@ -8,8 +8,7 @@ export class AuthService {
 
     constructor(
       private adminService: MedicoService,
-      private jwtService: JwtService,
-      private tokenService: TokenService) {}
+      private jwtService: JwtService) {}
 
     async validateUser(crm: string, pass: string): Promise<any> {
       const admin = await this.adminService.pegarMedico(crm);
@@ -23,7 +22,6 @@ export class AuthService {
     async login(user: any) {
       const payload = { username: user.crm, sub: user.userId };
       const token = this.jwtService.sign(payload);
-      this.tokenService.salvarToken(token, user.crm)
       return {
         access_token: token,
       };

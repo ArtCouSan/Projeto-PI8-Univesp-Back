@@ -1,4 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Request, Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { AuthService } from 'src/auth/auth.service';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { FarmaciaUpdateDTO } from './dto/farmacia-update.dto';
 import { FarmaciaDTO } from './dto/farmacia.dto';
@@ -7,9 +9,14 @@ import { FarmaciaService } from './service/farmacia.service';
 @Controller('api/v1/farmacia')
 export class FarmaciaController {
 
-  constructor(private farmaciaService: FarmaciaService){}
+  constructor(private readonly farmaciaService: FarmaciaService, private readonly authService: AuthService){}
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(AuthGuard('local'))
+  @Post('/login')
+  async login(@Request() req) {
+    return this.authService.login(req.user);
+  }
+
   @Post()
   async criarFarmacia(@Body() farmaciaDTO: FarmaciaDTO) {
     const farmacia = await this.farmaciaService.criarFarmacia(farmaciaDTO);
@@ -23,10 +30,9 @@ export class FarmaciaController {
     return JSON.parse(JSON.stringify(farmacias));
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get(":id")
-  async pegarFarmacia(@Param('id') id: string) {
-    const farmacia = await this.farmaciaService.pegarFarmacia(id);
+  @Get(":cnpj")
+  async pegarFarmacia(@Param('cnpj') cnpj: string) {
+    const farmacia = await this.farmaciaService.pegarFarmacia(cnpj);
     return JSON.parse(JSON.stringify(farmacia));
   }
 

@@ -2,7 +2,7 @@ import { Body, Controller, Put } from '@nestjs/common';
 import { RefreshTokenDTO } from './dto/refresh-token.dto';
 import { TokenService } from './service/token.service';
 
-@Controller('api/v1/hospital/token')
+@Controller('api/v1/medico/token')
 export class TokenController {
 
   constructor(private tokenService: TokenService){}

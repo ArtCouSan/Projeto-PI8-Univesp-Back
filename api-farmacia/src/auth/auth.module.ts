@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { AdminModule } from 'src/admin/admin.module';
+import { FarmaciaModule } from 'src/farmacia/farmacia.module';
 import { TokenModule } from 'src/token/token.module';
 import { AuthService } from './auth.service';
 import { jwtConstants } from './constants';
@@ -11,7 +11,7 @@ import { LocalStrategy } from './local.strategy';
 @Module({
   providers: [AuthService, LocalStrategy, JwtStrategy],
   imports: [
-    AdminModule,
+    FarmaciaModule,
     PassportModule,
     TokenModule,
     JwtModule.register({

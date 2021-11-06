@@ -1,18 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { AdminService } from 'src/admin/service/admin.service';
+import { FarmaciaService } from 'src/farmacia/service/farmacia.service';
 import { TokenService } from 'src/token/service/token.service';
 
 @Injectable()
 export class AuthService {
 
     constructor(
-      private adminService: AdminService,
+      private adminService: FarmaciaService,
       private jwtService: JwtService,
       private tokenService: TokenService) {}
 
     async validateUser(cnpj: string, pass: string): Promise<any> {
-      const admin = await this.adminService.pegarAdmin(cnpj);
+      const admin = await this.adminService.pegarFarmacia(cnpj);
       if (admin && admin.password === pass) {
         const { password, ...result } = admin;
         return result;
