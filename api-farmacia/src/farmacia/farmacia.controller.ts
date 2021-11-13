@@ -24,9 +24,9 @@ export class FarmaciaController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get(":cnpj/listar")
-  async listarFarmacias(@Param('cnpj') cnpj: string) {
-    const farmacias = await this.farmaciaService.listarFarmacias(cnpj);
+  @Get("/listar")
+  async listarFarmacias() {
+    const farmacias = await this.farmaciaService.listarFarmacias();
     return JSON.parse(JSON.stringify(farmacias));
   }
 

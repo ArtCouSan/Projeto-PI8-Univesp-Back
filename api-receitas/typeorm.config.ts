@@ -7,9 +7,6 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   username: 'postgres',
   password: 'root',
   database: 'local',
-  entities: [
-    "dist/src/hospital/models/*.js",
-    "dist/src/token/models/*.js"
-  ],
+  entities: ["dist/src/receita/models/*.js"],
   synchronize: true,
 };

@@ -57,11 +57,7 @@ export class FarmaciaService {
         await this.farmaciaRepo.save(farmacia);
     }
 
-    public async listarFarmacias(cnpj: string) {
-        return await this.farmaciaRepo.find({
-            where: {
-                cnpj: cnpj
-            }
-        });
+    public async listarFarmacias() {
+        return await this.farmaciaRepo.find();
     }
 }
