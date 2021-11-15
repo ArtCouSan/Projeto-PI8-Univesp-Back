@@ -18,15 +18,15 @@ export class Receita extends BaseEntity {
     @Column({ nullable: false, type: 'varchar', length: 200 })
     status: string;
 
-    @ManyToOne(type => Medico)
+    @ManyToOne(type => Medico, {eager: true})
     @JoinColumn({name : 'medico_crm', referencedColumnName: 'crm'})
     medico: Medico;
 
-    @ManyToOne(type => Paciente)
+    @ManyToOne(type => Paciente, {eager: true})
     @JoinColumn({name : 'paciente_cpf', referencedColumnName: 'cpf'})
     paciente: Paciente;
 
-    @ManyToOne(type => Farmaceutico)
+    @ManyToOne(type => Farmaceutico, {eager: true})
     @JoinColumn({name : 'farmaceutico_crf', referencedColumnName: 'crf'})
     farmaceutico: Farmaceutico;
 

@@ -16,7 +16,7 @@ export class Paciente extends BaseEntity {
     @Column({ nullable: false, type: 'varchar', length: 200 })
     nome: string;
 
-    @OneToMany(type => Receita, receita => receita.paciente, {eager: true})
+    @OneToMany(type => Receita, receita => receita.paciente, {eager: false})
     receitas: Receita[];
 
 }

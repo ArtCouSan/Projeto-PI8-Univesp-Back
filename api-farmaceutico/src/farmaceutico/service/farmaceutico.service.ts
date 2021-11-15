@@ -21,7 +21,7 @@ export class FarmaceuticoService {
         });
         
         if(exist) {
-            throw new BadRequestException("CNPJ existente");
+            throw new BadRequestException("CRF existente");
         }
 
         const farmaceutico = new Farmaceutico();

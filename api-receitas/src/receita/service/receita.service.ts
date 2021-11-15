@@ -1,30 +1,47 @@
+/* eslint-disable prefer-const */
+/* eslint-disable prettier/prettier */
 import { HttpService } from '@nestjs/axios';
 import { BadRequestException, Injectable, UploadedFile } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 import * as dayjs from 'dayjs'
 import { ReceitaSaveDTO } from '../dto/receita-save.dto';
-import { Receita } from '../models/receita.model';
 import { ReceitaRepository } from '../repo/receita.repo';
-import { Paciente } from '../models/paciente.entity';
-import { Medico } from '../models/medico.entity';
-import { Farmaceutico } from '../models/farmaceutico.entity';
+import { Not } from 'typeorm';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { Arquivo } from '../models/mongodb/arquivo.entity';
+import { Paciente } from '../models/postgres/paciente.entity';
+import { Medico } from '../models/postgres/medico.entity';
+import { Receita } from '../models/postgres/receita.model';
+import { Farmaceutico } from '../models/postgres/farmaceutico.entity';
 
 
 @Injectable()
 export class ReceitaService {
 
     constructor(private readonly receitaRepo: ReceitaRepository,
-        private httpService: HttpService) { }
+        private httpService: HttpService,
+        @InjectModel('Arquivo') private readonly arquivoModel: Model<Arquivo>) { }
 
-    public async salvarReceita(receitaDTO: ReceitaSaveDTO, @UploadedFile() file: Express.Multer.File) {
+    public async salvarReceita(receitaDTO: ReceitaSaveDTO, file : Express.Multer.File) {
         const paciente: Paciente = await (await firstValueFrom(this.httpService.get(`http://localhost:3001/api/v1/paciente/${receitaDTO.cpfPaciente}`))).data;
         const medico: Medico = await (await firstValueFrom(this.httpService.get(`http://localhost:3005/api/v1/medico/${receitaDTO.crmMedico}`))).data;
         let receita: Receita = new Receita();
-        receita.status = "Ativo";
+        receita.status = "Em aberto";
         receita.medico = medico;
         receita.paciente = paciente;
         receita.hash = paciente.cpf.concat(medico.crm).concat(dayjs().format());
-        this.receitaRepo.save(receita);
+        const receitaSaved: Receita = await this.receitaRepo.save(receita);
+        const arquivo: Arquivo = new Arquivo();
+        arquivo.name = file.originalname;
+        arquivo._id = receitaSaved.hash;
+        arquivo.file = file.buffer.toString('base64');
+        await new this.arquivoModel(arquivo).save();
+        return receitaSaved;
+    }
+
+    public async buscarReceita(hash: string) {
+        return await this.arquivoModel.findById(hash);
     }
 
     public async buscarReceitasPaciente(cpf: string) {
@@ -47,7 +64,8 @@ export class ReceitaService {
     public async buscarReceitasMedico(crm: string) {
         return await this.receitaRepo.find({
             where: {
-                medico: crm
+                medico: crm,
+                status: Not("Receita cancelada")
             }
         });
     }
@@ -67,9 +85,24 @@ export class ReceitaService {
                 hash: hash
             }
         });
-        receita.status = "Analise";
+        receita.status = "Em analise";
         receita.farmaceutico = farmaceutico;
         return await this.receitaRepo.save(receita);
+    }
+
+    public async cancelarReceitaPacienteComoMedico(crm: string, hash: string) {
+        let receita = await this.receitaRepo.findOne({
+            where: {
+                hash: hash,
+                status: "Em aberto"
+            }
+        });
+        if(receita) {
+            receita.status = "Receita cancelada";
+            return await this.receitaRepo.save(receita);
+        } else {
+            throw new BadRequestException("Receita não pode ser cancelada, pois já está sendo utilizada!");
+        }
     }
 
     public async devolverReceitaPacienteComoFarmaceutico(hash: string) {
@@ -78,7 +111,7 @@ export class ReceitaService {
                 hash: hash
             }
         });
-        receita.status = "Ativo";
+        receita.status = "Em aberto";
         receita.farmaceutico = null;
         return await this.receitaRepo.save(receita);
     }
@@ -89,7 +122,7 @@ export class ReceitaService {
                 hash: hash
             }
         });
-        receita.status = "Finalizado";
+        receita.status = "Receita utilizada";
         return await this.receitaRepo.save(receita);
     }
 
