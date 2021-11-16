@@ -11,7 +11,7 @@ export class Receita extends BaseEntity {
 
     @CreateDateColumn()
     dtInsercao: Date;
-  
+
     @DeleteDateColumn()
     dtExclusao: string;
 
@@ -19,15 +19,21 @@ export class Receita extends BaseEntity {
     status: string;
 
     @ManyToOne(type => Medico)
-    @JoinColumn({name : 'medico_crm', referencedColumnName: 'crm'})
+    @JoinColumn([
+        { name: 'medico_crm', referencedColumnName: 'crm' },
+        { name: 'medico_cnpjHospital', referencedColumnName: 'cnpjHospital' }
+    ])
     medico: Medico;
 
     @ManyToOne(type => Paciente)
-    @JoinColumn({name : 'paciente_cpf', referencedColumnName: 'cpf'})
+    @JoinColumn({ name: 'paciente_cpf', referencedColumnName: 'cpf' })
     paciente: Paciente;
 
     @ManyToOne(type => Farmaceutico)
-    @JoinColumn({name : 'farmaceutico_crf', referencedColumnName: 'crf'})
+    @JoinColumn([
+        { name: 'farmaceutico_crf', referencedColumnName: 'crf' },
+        { name: 'farmaceutico_cnpjFarmacia', referencedColumnName: 'cnpjFarmacia' }
+    ])
     farmaceutico: Farmaceutico;
 
 }

@@ -3,4 +3,5 @@ export interface MedicoDTO {
   nome: string;
   status: string;
   password: string;
+  cnpjHospital: string
 }

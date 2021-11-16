@@ -23,7 +23,6 @@ export class FarmaciaController {
     return JSON.parse(JSON.stringify(farmacia));
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get("/listar")
   async listarFarmacias() {
     const farmacias = await this.farmaciaService.listarFarmacias();

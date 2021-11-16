@@ -37,7 +37,7 @@ export class TokenService {
             }
         });
         if (token) {
-            const admin = await this.adminService.pegarFarmaceutico(token.username);
+            const admin = await this.adminService.pegarFarmaceutico(token.crf, token.cnpjFarmacia);
             return this.authService.login(admin);
         } else {
             throw new UnauthorizedException();

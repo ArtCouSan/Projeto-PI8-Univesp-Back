@@ -9,7 +9,10 @@ export class TokenMedico extends BaseEntity {
   @Column({ nullable: false, type: 'varchar', length: 200 })
   hash: string;
 
+  @Column({ nullable: false, type: 'varchar', length: 14 })
+  cnpjHospital: string;
+
   @Column({ nullable: false, type: 'varchar', length: 200 })
-  username: string;
+  crm: string;
 
 }

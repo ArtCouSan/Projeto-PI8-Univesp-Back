@@ -1,5 +1,6 @@
 export interface FarmaceuticoDTO {
   crf: string;
   nome: string;
-  password: string
+  password: string;
+  cnpjFarmacia: string
 }

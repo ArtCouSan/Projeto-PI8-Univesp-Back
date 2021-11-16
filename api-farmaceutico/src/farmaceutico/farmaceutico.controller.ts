@@ -4,6 +4,7 @@ import { FarmaceuticoUpdateDTO } from './dto/farmaceutico-update.dto';
 import { FarmaceuticoDTO } from './dto/farmaceutico.dto';
 import { FarmaceuticoService } from './service/farmaceutico.service';
 import { AuthGuard } from '@nestjs/passport';
+import { FarmaceuticoLoginDTO } from './dto/farmaceutico-login.dto';
 
 @Controller('api/v1/farmaceutico')
 export class FarmaceuticoController {
@@ -13,13 +14,26 @@ export class FarmaceuticoController {
     @UseGuards(AuthGuard('local'))
     @Post('/login')
     async login(@Request() req) {
-      return this.authService.login(req.user);
+      return this.authService.login(req);
     }
 
     @Post()
     async criarFarmaceutico(@Body() farmaceuticoDTO: FarmaceuticoDTO) {
       const farmaceutico = await this.farmaceuticoService.criarFarmaceutico(farmaceuticoDTO);
       return JSON.parse(JSON.stringify(farmaceutico));
+    }
+
+    @Get("/listar-cnpj/:crf")
+    async listarFarmaceuticosPeloCRF(@Param('crf') crf: string) {
+      const farmaceuticos = await this.farmaceuticoService.listarFarmaceuticosPeloCRF(crf);
+      const cnpjs = [];
+      farmaceuticos.forEach(f => {
+        cnpjs.push({
+          "name": f.farmacia.nomeFilial,
+          "code": f.cnpjFarmacia
+        });
+      })
+      return JSON.parse(JSON.stringify(cnpjs));
     }
   
     @Get()
@@ -28,21 +42,21 @@ export class FarmaceuticoController {
       return JSON.parse(JSON.stringify(farmaceuticos));
     }
   
-    @Get(":crf")
-    async pegarFarmaceutico(@Param('crf') crf: string) {
-      const farmaceutico = await this.farmaceuticoService.pegarFarmaceutico(crf);
+    @Get("/:crf/:cnpjFarmacia")
+    async pegarFarmaceutico(@Param('crf') crf: string, @Param('cnpjFarmacia') cnpjFarmacia: string) {
+      const farmaceutico = await this.farmaceuticoService.pegarFarmaceutico(crf, cnpjFarmacia);
       return JSON.parse(JSON.stringify(farmaceutico));
     }
   
-    @Delete(":crf")
-    async deletarFarmaceutico(@Param('crf') crf: string) {
-      await this.farmaceuticoService.deletarFarmaceutico(crf);
+    @Delete("/:crf/:cnpjFarmacia")
+    async deletarFarmaceutico(@Param('crf') crf: string, @Param('cnpjFarmacia') cnpjFarmacia: string) {
+      await this.farmaceuticoService.deletarFarmaceutico(crf, cnpjFarmacia);
       return JSON.parse(JSON.stringify('{"message":"Deletado com sucesso"}'));
     }
   
-    @Put(":crf")
-    async atualizarFarmaceutico(@Param('crf') crf: string, @Body() farmaceuticoDTO: FarmaceuticoUpdateDTO) {
-      const farmaceutico = await this.farmaceuticoService.atualizarFarmaceutico(crf, farmaceuticoDTO);
+    @Put("/:crf/:cnpjFarmacia")
+    async atualizarFarmaceutico(@Param('crf') crf: string, @Param('cnpjFarmacia') cnpjFarmacia: string, @Body() farmaceuticoDTO: FarmaceuticoUpdateDTO) {
+      const farmaceutico = await this.farmaceuticoService.atualizarFarmaceutico(crf, cnpjFarmacia, farmaceuticoDTO);
       return JSON.parse(JSON.stringify(farmaceutico));
     }
 }

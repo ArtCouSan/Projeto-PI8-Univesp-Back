@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { Not } from 'typeorm';
 import { FarmaciaUpdateDTO } from '../dto/farmacia-update.dto';
 import { FarmaciaDTO } from '../dto/farmacia.dto';
 import { Farmacia } from '../models/farmacia.entity';

@@ -22,6 +22,19 @@ export class MedicoController {
       const medico = await this.medicoService.criarMedico(medicoDTO);
       return JSON.parse(JSON.stringify(medico));
     }
+
+    @Get("/listar-cnpj/:crm")
+    async listarFarmaceuticosPeloCRM(@Param('crm') crm: string, @Param('cnpjHospital') cnpjHospital: string) {
+      const hospitais = await this.medicoService.listarMedicosPeloCRM(crm);
+      const cnpjs = [];
+      hospitais.forEach(h => {
+        cnpjs.push({
+          "name": h.hospital.nomeFantasia,
+          "code": h.cnpjHospital
+        });
+      })
+      return JSON.parse(JSON.stringify(cnpjs));
+    }
   
     @UseGuards(JwtAuthGuard)
     @Get()
@@ -30,23 +43,23 @@ export class MedicoController {
       return JSON.parse(JSON.stringify(medicos));
     }
   
-    @Get(":crm")
-    async pegarMedico(@Param('crm') crm: string) {
-      const medico = await this.medicoService.pegarMedico(crm);
+    @Get("/:crm/:cnpjHospital")
+    async pegarMedico(@Param('crm') crm: string, @Param('cnpjHospital') cnpjHospital: string) {
+      const medico = await this.medicoService.pegarMedico(crm, cnpjHospital);
       return JSON.parse(JSON.stringify(medico));
     }
   
     @UseGuards(JwtAuthGuard)
-    @Delete(":crm")
-    async deletarMedico(@Param('crm') crm: string) {
-      await this.medicoService.deletarMedico(crm);
+    @Delete("/:crm/:cnpjHospital")
+    async deletarMedico(@Param('crm') crm: string, @Param('cnpjHospital') cnpjHospital: string) {
+      await this.medicoService.deletarMedico(crm, cnpjHospital);
       return JSON.parse(JSON.stringify('{"message":"Deletado com sucesso"}'));
     }
   
     @UseGuards(JwtAuthGuard)
-    @Put(":crm")
-    async atualizarMedico(@Param('crm') crm: string, @Body() medicoDTO: MedicoUpdateDTO) {
-      const medico = await this.medicoService.atualizarMedico(crm, medicoDTO);
+    @Put("/:crm/:cnpjHospital")
+    async atualizarMedico(@Param('crm') crm: string, @Param('cnpjHospital') cnpjHospital: string, @Body() medicoDTO: MedicoUpdateDTO) {
+      const medico = await this.medicoService.atualizarMedico(crm, cnpjHospital, medicoDTO);
       return JSON.parse(JSON.stringify(medico));
     }
 

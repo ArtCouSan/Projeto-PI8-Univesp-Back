@@ -53,9 +53,9 @@ export class ReceitaController {
     return JSON.parse(JSON.stringify(receita));
   }
 
-  @Get("/farmaceutico/:crf")
-  async buscarReceitasFarmaceutico(@Param('crf') crf: string) {
-    const receitas = await this.receitaService.buscarReceitasFarmaceutico(crf);
+  @Get("/farmaceutico/:cpf")
+  async buscarReceitasFarmaceutico(@Param('cpf') cpf: string) {
+    const receitas = await this.receitaService.buscarReceitasFarmaceutico(cpf);
     return JSON.parse(JSON.stringify(receitas));
   }
 

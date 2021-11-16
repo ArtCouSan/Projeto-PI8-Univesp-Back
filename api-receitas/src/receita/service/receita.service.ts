@@ -70,10 +70,10 @@ export class ReceitaService {
         });
     }
 
-    public async buscarReceitasFarmaceutico(crf: string) {
+    public async buscarReceitasFarmaceutico(cpf: string) {
         return await this.receitaRepo.find({
             where: {
-                farmaceutico: crf
+                paciente: cpf
             }
         });
     }

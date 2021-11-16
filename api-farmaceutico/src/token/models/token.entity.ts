@@ -9,7 +9,10 @@ export class TokenFarmaceutico extends BaseEntity {
   @Column({ nullable: false, type: 'varchar', length: 200 })
   hash: string;
 
+  @Column({ nullable: false, type: 'varchar', length: 14 })
+  cnpjFarmacia: string;
+
   @Column({ nullable: false, type: 'varchar', length: 200 })
-  username: string;
+  crf: string;
 
 }

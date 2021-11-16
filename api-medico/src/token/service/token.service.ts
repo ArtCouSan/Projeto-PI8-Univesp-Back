@@ -37,7 +37,7 @@ export class TokenService {
             }
         });
         if (token) {
-            const admin = await this.adminService.pegarMedico(token.username);
+            const admin = await this.adminService.pegarMedico(token.crm, token.cnpjHospital);
             return this.authService.login(admin);
         } else {
             throw new UnauthorizedException();

@@ -10,8 +10,8 @@ export class AuthService {
       private adminService: MedicoService,
       private jwtService: JwtService) {}
 
-    async validateUser(crm: string, pass: string): Promise<any> {
-      const admin = await this.adminService.pegarMedico(crm);
+    async validateUser(crmCnpj: string, pass: string): Promise<any> {
+      const admin = await this.adminService.pegarMedico(crmCnpj.substring(14, crmCnpj.length), crmCnpj.substring(0, 14));
       if (admin && admin.password === pass) {
         const { password, ...result } = admin;
         return result;

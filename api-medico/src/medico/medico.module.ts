@@ -1,3 +1,4 @@
+import { HttpModule } from '@nestjs/axios';
 import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from 'src/auth/auth.module';
@@ -8,7 +9,8 @@ import { MedicoService } from './service/medico.service';
 @Module({
   imports: [
     TypeOrmModule.forFeature([MedicoRepository]),
-    forwardRef(() => AuthModule)
+    forwardRef(() => AuthModule),
+    HttpModule
   ],
   controllers: [MedicoController],
   providers: [MedicoService],
