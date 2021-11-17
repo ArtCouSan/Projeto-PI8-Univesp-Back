@@ -6,7 +6,7 @@ import { firstValueFrom } from 'rxjs';
 import * as dayjs from 'dayjs'
 import { ReceitaSaveDTO } from '../dto/receita-save.dto';
 import { ReceitaRepository } from '../repo/receita.repo';
-import { Not } from 'typeorm';
+import { Like, Not } from 'typeorm';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Arquivo } from '../models/mongodb/arquivo.entity';
@@ -23,9 +23,9 @@ export class ReceitaService {
         private httpService: HttpService,
         @InjectModel('Arquivo') private readonly arquivoModel: Model<Arquivo>) { }
 
-    public async salvarReceita(receitaDTO: ReceitaSaveDTO, file : Express.Multer.File) {
+    public async salvarReceita(receitaDTO: ReceitaSaveDTO, file: Express.Multer.File) {
         const paciente: Paciente = await (await firstValueFrom(this.httpService.get(`http://localhost:3001/api/v1/paciente/${receitaDTO.cpfPaciente}`))).data;
-        const medico: Medico = await (await firstValueFrom(this.httpService.get(`http://localhost:3005/api/v1/medico/${receitaDTO.crmMedico}`))).data;
+        const medico: Medico = await (await firstValueFrom(this.httpService.get(`http://localhost:3005/api/v1/medico/${receitaDTO.crmMedico}/${receitaDTO.cnpjHospital}`))).data;
         let receita: Receita = new Receita();
         receita.status = "Em aberto";
         receita.medico = medico;
@@ -61,11 +61,15 @@ export class ReceitaService {
         });
     }
 
-    public async buscarReceitasMedico(crm: string) {
+    public async buscarReceitasMedico(crm: string, cnpjHospital: string, cpf: string) {
         return await this.receitaRepo.find({
             where: {
-                medico: crm,
-                status: Not("Receita cancelada")
+                medico: {
+                    cnpjHospital: cnpjHospital,
+                    crm: crm
+                },
+                status: Not("Receita cancelada"),
+                paciente: Like(`%${cpf}%`)
             }
         });
     }
@@ -97,7 +101,7 @@ export class ReceitaService {
                 status: "Em aberto"
             }
         });
-        if(receita) {
+        if (receita) {
             receita.status = "Receita cancelada";
             return await this.receitaRepo.save(receita);
         } else {

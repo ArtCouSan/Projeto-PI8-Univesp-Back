@@ -3,6 +3,7 @@ import { Body, Controller, Delete, Get, Header, Param, Post, Res, StreamableFile
 import { FileInterceptor } from '@nestjs/platform-express/multer';
 import { createReadStream, writeFileSync } from 'fs';
 import { Readable } from 'stream';
+import { ReceitaMedicoFiltroDTO } from './dto/receita-medico-filtro.dto';
 import { ReceitaSaveDTO } from './dto/receita-save.dto';
 import { ReceitaService } from './service/receita.service';
 global.atob = require("atob");
@@ -41,9 +42,9 @@ export class ReceitaController {
     return JSON.parse(JSON.stringify(receita));
   }
 
-  @Get("/medico/:crm")
-  async buscarReceitasMedico(@Param('crm') crm: string) {
-    const receitas = await this.receitaService.buscarReceitasMedico(crm);
+  @Post("/medico/:crm/:cnpj")
+  async buscarReceitasMedico(@Param('crm') crm: string, @Param('cnpj') cnpj: string, @Body() filtroDTO: ReceitaMedicoFiltroDTO) {
+    const receitas = await this.receitaService.buscarReceitasMedico(crm, cnpj, filtroDTO.cpfFiltrado);
     return JSON.parse(JSON.stringify(receitas));
   }
 
