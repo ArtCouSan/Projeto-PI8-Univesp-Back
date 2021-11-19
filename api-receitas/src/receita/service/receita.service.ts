@@ -6,7 +6,7 @@ import { firstValueFrom } from 'rxjs';
 import * as dayjs from 'dayjs'
 import { ReceitaSaveDTO } from '../dto/receita-save.dto';
 import { ReceitaRepository } from '../repo/receita.repo';
-import { Like, Not } from 'typeorm';
+import { In, Like, Not } from 'typeorm';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Arquivo } from '../models/mongodb/arquivo.entity';
@@ -47,7 +47,8 @@ export class ReceitaService {
     public async buscarReceitasPaciente(cpf: string) {
         return await this.receitaRepo.find({
             where: {
-                paciente: cpf
+                paciente: cpf,
+                status: Not("Receita cancelada")
             }
         });
     }
@@ -74,26 +75,6 @@ export class ReceitaService {
         });
     }
 
-    public async buscarReceitasFarmaceutico(cpf: string) {
-        return await this.receitaRepo.find({
-            where: {
-                paciente: cpf
-            }
-        });
-    }
-
-    public async analisarReceitaPacienteComoFarmaceutico(crf: string, hash: string) {
-        const farmaceutico: Farmaceutico = await (await firstValueFrom(this.httpService.get(`http://localhost:3004/api/v1/farmaceutico/${crf}`))).data;
-        let receita = await this.receitaRepo.findOne({
-            where: {
-                hash: hash
-            }
-        });
-        receita.status = "Em analise";
-        receita.farmaceutico = farmaceutico;
-        return await this.receitaRepo.save(receita);
-    }
-
     public async cancelarReceitaPacienteComoMedico(crm: string, hash: string) {
         let receita = await this.receitaRepo.findOne({
             where: {
@@ -109,6 +90,40 @@ export class ReceitaService {
         }
     }
 
+    public async buscarReceitasDoFarmaceutico(crf: string, cnpjFarmacia: string, cpf: string) {
+        return await this.receitaRepo.find({
+            where: {
+                status: In(["Em analise", "Receita utilizada"]),
+                paciente: Like(`%${cpf}%`),
+                farmaceutico: {
+                    cnpjFarmacia: cnpjFarmacia,
+                    crf: crf
+                }
+            }
+        });
+    }
+
+    public async buscarReceitasParaFarmaceutico(cpf: string) {
+        return await this.receitaRepo.find({
+            where: {
+                status: "Em aberto",
+                paciente: Like(`%${cpf}%`)
+            }
+        });
+    }
+
+    public async analisarReceitaPacienteComoFarmaceutico(crf: string, cnpjFarmacia: string, hash: string) {
+        const farmaceutico: Farmaceutico = await (await firstValueFrom(this.httpService.get(`http://localhost:3004/api/v1/farmaceutico/${crf}/${cnpjFarmacia}`))).data;
+        let receita = await this.receitaRepo.findOne({
+            where: {
+                hash: hash
+            }
+        });
+        receita.status = "Em analise";
+        receita.farmaceutico = farmaceutico;
+        return await this.receitaRepo.save(receita);
+    }
+
     public async devolverReceitaPacienteComoFarmaceutico(hash: string) {
         let receita = await this.receitaRepo.findOne({
             where: {
@@ -120,14 +135,23 @@ export class ReceitaService {
         return await this.receitaRepo.save(receita);
     }
 
-    public async finalizarReceitaPacienteComoFarmaceutico(hash: string) {
+    public async finalizarReceitaPacienteComoFarmaceutico(crf: string, cnpjFarmacia: string, hash: string) {
         let receita = await this.receitaRepo.findOne({
             where: {
                 hash: hash
             }
         });
         receita.status = "Receita utilizada";
-        return await this.receitaRepo.save(receita);
+        await this.receitaRepo.save(receita);
+        return await this.receitaRepo.find({
+            where: {
+                status: In(["Em analise", "Receita utilizada"]),
+                farmaceutico: {
+                    cnpjFarmacia: cnpjFarmacia,
+                    crf: crf
+                }
+            }
+        });
     }
 
 }

@@ -54,27 +54,33 @@ export class ReceitaController {
     return JSON.parse(JSON.stringify(receita));
   }
 
-  @Get("/farmaceutico/:cpf")
-  async buscarReceitasFarmaceutico(@Param('cpf') cpf: string) {
-    const receitas = await this.receitaService.buscarReceitasFarmaceutico(cpf);
+  @Post("/farmaceutico/:crf/:cnpj")
+  async buscarReceitasDoFarmaceutico(@Param('crf') crf: string, @Param('cnpj') cnpj: string, @Body() filtroDTO: ReceitaMedicoFiltroDTO) {
+    const receitas = await this.receitaService.buscarReceitasDoFarmaceutico(crf, cnpj, filtroDTO.cpfFiltrado);
     return JSON.parse(JSON.stringify(receitas));
   }
 
-  @Get("/:hash/famarceutico/analisar/:crf")
-  async analisarReceitaPacienteComoFarmaceuticorReceitasFarmaceutico(@Param('crf') crf: string, @Param('hash') hash: string) {
-    const receita = await this.receitaService.analisarReceitaPacienteComoFarmaceutico(crf, hash);
+  @Post("/farmaceutico")
+  async buscarReceitasParaFarmaceutico(@Body() filtroDTO: ReceitaMedicoFiltroDTO) {
+    const receitas = await this.receitaService.buscarReceitasParaFarmaceutico(filtroDTO.cpfFiltrado);
+    return JSON.parse(JSON.stringify(receitas));
+  }
+
+  @Get("/:hash/farmaceutico/analisar/:crf/:cnpj")
+  async analisarReceitaPacienteComoFarmaceuticorReceitasFarmaceutico(@Param('crf') crf: string, @Param('cnpj') cnpj: string, @Param('hash') hash: string) {
+    const receita = await this.receitaService.analisarReceitaPacienteComoFarmaceutico(crf, cnpj, hash);
     return JSON.parse(JSON.stringify(receita));
   }
 
-  @Get("/:hash/famarceutico/devolver")
+  @Get("/:hash/farmaceutico/devolver")
   async devolverReceitaPacienteComoFarmaceuticorReceitasFarmaceutico(@Param('hash') hash: string) {
     const receita = await this.receitaService.devolverReceitaPacienteComoFarmaceutico(hash);
     return JSON.parse(JSON.stringify(receita));
   }
 
-  @Get("/:hash/famarceutico/finalizar")
-  async finalizarReceitaPacienteComoFarmaceuticorReceitasFarmaceutico(@Param('hash') hash: string) {
-    const receita = await this.receitaService.finalizarReceitaPacienteComoFarmaceutico(hash);
+  @Get("/:hash/farmaceutico/finalizar/:crf/:cnpj")
+  async finalizarReceitaPacienteComoFarmaceuticorReceitasFarmaceutico(@Param('crf') crf: string, @Param('cnpj') cnpj: string, @Param('hash') hash: string) {
+    const receita = await this.receitaService.finalizarReceitaPacienteComoFarmaceutico(crf, cnpj, hash);
     return JSON.parse(JSON.stringify(receita));
   }
 
