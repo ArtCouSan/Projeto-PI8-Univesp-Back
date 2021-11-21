@@ -19,7 +19,7 @@ export class Farmacia extends BaseEntity {
   @Column({ nullable: false, type: 'varchar', length: 20 })
   status: string;
 
-  @OneToMany(type => Farmaceutico, farmaceutico => farmaceutico.farmacia, {eager: true})
+  @OneToMany(type => Farmaceutico, farmaceutico => farmaceutico.farmacia, {eager: false})
   farmaceuticos: Farmaceutico[];
 
 }

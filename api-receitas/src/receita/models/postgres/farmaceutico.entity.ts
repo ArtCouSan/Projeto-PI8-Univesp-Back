@@ -23,7 +23,7 @@ export class Farmaceutico extends BaseEntity {
   @OneToMany(type => Receita, receita => receita.farmaceutico, {eager: false})
   receitas: Receita[];
 
-  @ManyToOne(type => Farmacia, {eager: false})
+  @ManyToOne(type => Farmacia, {eager: true})
   @JoinColumn({name : 'farmacia_id', referencedColumnName: 'id'})
   farmacia: Farmacia;
 

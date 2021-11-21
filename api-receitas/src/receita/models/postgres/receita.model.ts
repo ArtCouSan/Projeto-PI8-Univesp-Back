@@ -12,6 +12,12 @@ export class Receita extends BaseEntity {
     @CreateDateColumn()
     dtInsercao: Date;
 
+    @Column({ nullable: true, type: 'date' })
+    dtEmAnalise: Date;
+
+    @Column({ nullable: true, type: 'date' })
+    dtFinalizado: Date;
+
     @DeleteDateColumn()
     dtExclusao: string;
 

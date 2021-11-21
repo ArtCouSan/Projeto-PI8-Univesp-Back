@@ -49,6 +49,9 @@ export class ReceitaService {
             where: {
                 paciente: cpf,
                 status: Not("Receita cancelada")
+            },
+            order: {
+                dtInsercao: "DESC"
             }
         });
     }
@@ -71,6 +74,9 @@ export class ReceitaService {
                 },
                 status: Not("Receita cancelada"),
                 paciente: Like(`%${cpf}%`)
+            },
+            order: {
+                dtInsercao: "DESC"
             }
         });
     }
@@ -99,6 +105,9 @@ export class ReceitaService {
                     cnpjFarmacia: cnpjFarmacia,
                     crf: crf
                 }
+            },
+            order: {
+                dtEmAnalise: "DESC"
             }
         });
     }
@@ -108,6 +117,9 @@ export class ReceitaService {
             where: {
                 status: "Em aberto",
                 paciente: Like(`%${cpf}%`)
+            },
+            order: {
+                dtInsercao: "DESC"
             }
         });
     }
@@ -118,7 +130,8 @@ export class ReceitaService {
             where: {
                 hash: hash
             }
-        });
+        }); 
+        receita.dtEmAnalise = new Date();
         receita.status = "Em analise";
         receita.farmaceutico = farmaceutico;
         return await this.receitaRepo.save(receita);
@@ -130,6 +143,8 @@ export class ReceitaService {
                 hash: hash
             }
         });
+        receita.dtFinalizado = null;
+        receita.dtEmAnalise = null;
         receita.status = "Em aberto";
         receita.farmaceutico = null;
         return await this.receitaRepo.save(receita);
@@ -141,6 +156,7 @@ export class ReceitaService {
                 hash: hash
             }
         });
+        receita.dtFinalizado = new Date();
         receita.status = "Receita utilizada";
         await this.receitaRepo.save(receita);
         return await this.receitaRepo.find({
